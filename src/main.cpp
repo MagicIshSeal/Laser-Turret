@@ -64,13 +64,11 @@ void setup() {
 void loop() {
   // call the function defined in the setup
   distance();
-  // Write the output of the joystick to the servos
+  // Write the output of the joystick to the servos so they move
   servo_x.write(analogRead(xpin_in));
   servo_y.write(analogRead(ypin_in));
-  // Check if the button is pressed and fire the laser
-  while (swPin = LOW){
+  // Check if the button is pressed and if it is fire the laser
+  while (swPin = LOW){ // LOW because the joystick sends a low signal if the button is pressed
     digitalWrite(lsPin, HIGH);
   }
-  
-
 }
