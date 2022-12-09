@@ -28,8 +28,8 @@ void setup() {
   pinMode(swPin, INPUT);
   pinMode(lsPin, OUTPUT);
   //Attach servo to pin
-  servo_x.attach(xpin_out);
-  servo_y.attach(ypin_out);
+  servo_x.attach(xpin_out, 500, 2500);
+  servo_y.attach(ypin_out, 500, 2500);
   // start Serial Monitor
   Serial.begin(9600);
   //start LCD
@@ -68,7 +68,7 @@ void loop() {
   servo_x.write(analogRead(xpin_in));
   servo_y.write(analogRead(ypin_in));
   // Check if the button is pressed and fire the laser
-  if (swPin = LOW){
+  while (swPin = LOW){
     digitalWrite(lsPin, HIGH);
   }
   
