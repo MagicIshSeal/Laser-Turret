@@ -34,7 +34,6 @@ void setup() {
   Serial.begin(9600);
   //start LCD
   lcd.begin(16, 2);
-  // Create a function that measures and writes the distance to the screen
 }
 
 void loop() {
