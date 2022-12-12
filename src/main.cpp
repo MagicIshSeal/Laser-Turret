@@ -35,40 +35,36 @@ void setup() {
   //start LCD
   lcd.begin(16, 2);
   // Create a function that measures and writes the distance to the screen
-  int distance() {
-    // Makes sure the trigPin is LOW(inactive) before continuing
-    digitalWrite(trigPin, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-    // Calculating the distance
-    dis = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-    // Displays the distance on the Serial Monitor
-    Serial.print("Distance: ");
-    Serial.print(dist);
-    Serial.println(" cm");
-    // Displays the distance on the display
-    lcd.setCursor(0,0);
-    lcd.print(dist);
-    lcd.setCursor(4,0);
-    lcd.print("cm");
-    delay(200);
-    lcd.clear();
-    }
 }
 
 void loop() {
-  // call the function defined in the setup
-  distance();
+  // Makes sure the trigPin is LOW(inactive) before continuing
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  dist = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(dist);
+  Serial.println(" cm");
+  // Displays the distance on the display
+  lcd.setCursor(0,0);
+  lcd.print(dist);
+  lcd.setCursor(4,0);
+  lcd.print("cm");
+  delay(200);
+  lcd.clear();
   // Write the output of the joystick to the servos so they move
   servo_x.write(analogRead(xpin_in));
   servo_y.write(analogRead(ypin_in));
   // Check if the button is pressed and if it is fire the laser
-  while (swPin = LOW){ // LOW because the joystick sends a low signal if the button is pressed
+  while (swPin == LOW){ // LOW because the joystick sends a low signal if the button is pressed
     digitalWrite(lsPin, HIGH);
   }
 }
