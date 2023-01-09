@@ -1,23 +1,29 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
+#include <ezButton.h>
 // Servo definitions
-//Servo servo_x;
-//Servo servo_y;
+Servo servo_x;
+Servo servo_y;
 // Pin definitions
 #define echoPin 3
 #define trigPin 2
-//#define xpin_out 2
-//#define ypin_out 3
+#define xpin_out 11
+#define ypin_out 12
 #define ypin_in A1
 #define xpin_in A0
 #define swPin 4
-//#define lsPin 12
+#define lsPin 13
+
 
 const int rs = 10, en = 9, d4 = 5, d5 = 6, d6 = 7, d7 = 8;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 long duration;
 int dist;
+int xval;
+int yval;
+
+
 
 void setup() {
   // Set pins to correct OUT and IN
@@ -25,11 +31,11 @@ void setup() {
   pinMode(echoPin, INPUT);
   pinMode(xpin_in, INPUT);
   pinMode(ypin_in, INPUT);
-  pinMode(swPin, INPUT);
-  //pinMode(lsPin, OUTPUT);
+  pinMode(swPin, INPUT_PULLUP);
+  pinMode(lsPin, OUTPUT);
   //Attach servo to pin
-  //servo_x.attach(xpin_out, 500, 2500);
-  //servo_y.attach(ypin_out, 500, 2500);
+  servo_x.attach(xpin_out, 500, 2500);
+  servo_y.attach(ypin_out, 500, 2500);
   // start Serial Monitor
   Serial.begin(9600);
   //start LCD
@@ -48,10 +54,6 @@ void loop() {
   duration = pulseIn(echoPin, HIGH);
   // Calculating the distance
   dist = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-  // Displays the distance on the Serial Monitor
-  //Serial.print("Distance: ");
-  //Serial.print(dist);
-  //Serial.println(" cm");
   // Displays the distance on the display
   lcd.setCursor(0,0);
   lcd.print(dist);
@@ -59,14 +61,18 @@ void loop() {
   lcd.print("cm");
   delay(200);
   lcd.clear();
-  // Write the output of the joystick to the servos so they move
-  //servo_x.write(analogRead(xpin_in));
-  //servo_y.write(analogRead(ypin_in));
-  Serial.println(digitalRead(swPin));
-  //Serial.print(ypin_in);
-
+  Serial.print(analogRead(xpin_in));
   // Check if the button is pressed and if it is fire the laser
-  //while (swPin == LOW){ // LOW because the joystick sends a low signal if the button is pressed
-    //digitalWrite(lsPin, HIGH);
-  //}
+  if (digitalRead(swPin) == 0){
+    digitalWrite(lsPin, HIGH);
+  } else {
+    digitalWrite(lsPin, LOW);
+  }
+ // Write the output of the joystick to the servos so they move
+  xval = (0.17578125 * (analogRead(xpin_in))) + 1;
+  yval = (0.17578125 * (analogRead(ypin_in))) + 1;
+  servo_x.write(xval);
+  servo_y.write(yval);
+  
+  
 }
