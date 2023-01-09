@@ -15,14 +15,12 @@ Servo servo_y;
 #define swPin 4
 #define lsPin 13
 
-
 const int rs = 10, en = 9, d4 = 5, d5 = 6, d6 = 7, d7 = 8;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 long duration;
 int dist;
 int xval;
 int yval;
-
 
 
 void setup() {
@@ -68,7 +66,7 @@ void loop() {
   } else {
     digitalWrite(lsPin, LOW);
   }
- // Write the output of the joystick to the servos so they move
+  // Write the output of the joystick to the servos so they move
   xval = (0.17578125 * (analogRead(xpin_in))) + 1;
   yval = (0.17578125 * (analogRead(ypin_in))) + 1;
   servo_x.write(xval);
